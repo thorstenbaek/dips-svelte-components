@@ -1,2 +1,20 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+	import TimeSlider from '../lib/TimeSlider.svelte';    
+</script>
+
+<div class="main">
+    <TimeSlider/>
+</div>
+
+<style>
+    .main {
+        position:relative;
+        left: 10%;
+        width: 80%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>
