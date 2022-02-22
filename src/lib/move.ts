@@ -27,6 +27,7 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
         node.style.cursor = "move";
         _oldColor = node.style.backgroundColor;
         node.style.backgroundColor = `gray`;
+        node.style.touchAction = `none`;
         window.addEventListener("mousemove", onMouseMove);
         window.addEventListener("mouseup", onUp);        
         window.addEventListener("touchmove", onTouchMove);
@@ -90,6 +91,7 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
         window.removeEventListener("touchmove", onTouchMove);
         window.removeEventListener("touchend", onUp);     
         node.style.cursor = "default";
+        node.style.touchAction = `auto`;
         node.style.backgroundColor = _oldColor;
         _downPos = null;
     }
