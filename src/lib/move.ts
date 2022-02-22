@@ -28,7 +28,7 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
     function onTouchMove(event: TouchEvent) {
         event.preventDefault();
         
-        if (event.touches?.length == 1) {
+        if (event.touches?.length > 0) {
             onMove(event.touches[0].pageX, event.touches[0].pageY);
         }
     }
