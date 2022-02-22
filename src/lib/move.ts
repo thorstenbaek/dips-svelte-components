@@ -6,6 +6,7 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
     let _orientation: Orientation = orientation;
     let _downPos: DOMPoint;
     let _parentRect: DOMRect;
+    let _oldColor: string;
     const parent: HTMLElement = node.parentElement;
     
     
@@ -16,6 +17,8 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
         const nodeRect = node.getBoundingClientRect();
         _downPos = new DOMPoint(event.clientX - nodeRect.x, event.clientY - nodeRect.y);
         node.style.cursor = "move";
+        _oldColor = node.style.backgroundColor;
+        node.style.backgroundColor = `gray`;
         window.addEventListener("mousemove", onMouseMove);
         window.addEventListener("mouseup", onUp);        
         window.addEventListener("touchmove", onTouchMove);
@@ -76,6 +79,7 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
         window.removeEventListener("touchmove", onTouchMove);
         window.removeEventListener("touchend", onUp);     
         node.style.cursor = "default";
+        node.style.backgroundColor = _oldColor;
         _downPos = null;
     }
 
