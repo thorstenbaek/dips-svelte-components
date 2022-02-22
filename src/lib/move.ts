@@ -10,12 +10,14 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
     const parent: HTMLElement = node.parentElement;
     
     function onTouchStart(event: TouchEvent) {
+        event.preventDefault();
         if (event.touches?.length == 1) {
             onDown(event.touches[0].pageX, event.touches[0].pageY);
         }
     }   
     
     function onMouseDown(event: MouseEvent) {
+        event.preventDefault();
         onDown(event.clientX, event.clientY);
     }
     
@@ -86,6 +88,7 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
     }
 
     function onUp(event: MouseEvent) {                
+        event.preventDefault();
         window.removeEventListener('mousemove', onMouseMove);
 		window.removeEventListener('mouseup', onUp);        
         window.removeEventListener("touchmove", onTouchMove);
