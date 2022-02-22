@@ -25,7 +25,7 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
         window.addEventListener("touchend", onUp)
     }
 
-    function onTouchMove(event: TouchEvent) {
+    function onTouchMove(event: any) {
         event.preventDefault();
         
         if (event.touches?.length > 0) {
