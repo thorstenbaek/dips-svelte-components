@@ -9,13 +9,21 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
     let _oldColor: string;
     const parent: HTMLElement = node.parentElement;
     
+    function onTouchStart(event: TouchEvent) {
+        if (event.touches?.length == 1) {
+            onDown(event.touches[0].pageX, event.touches[0].pageY);
+        }
+    }   
     
-    console.log(_orientation);
-
-    function onDown(event: MouseEvent) {
+    function onMouseDown(event: MouseEvent) {
+        onDown(event.clientX, event.clientY);
+    }
+    
+    
+    function onDown(x, y: number) {
         _parentRect = parent.getBoundingClientRect();
         const nodeRect = node.getBoundingClientRect();
-        _downPos = new DOMPoint(event.clientX - nodeRect.x, event.clientY - nodeRect.y);
+        _downPos = new DOMPoint(x - nodeRect.x, y - nodeRect.y);
         node.style.cursor = "move";
         _oldColor = node.style.backgroundColor;
         node.style.backgroundColor = `gray`;
@@ -25,10 +33,10 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
         window.addEventListener("touchend", onUp)
     }
 
-    function onTouchMove(event: any) {
+    function onTouchMove(event: TouchEvent) {
         event.preventDefault();
         
-        if (event.touches?.length > 0) {
+        if (event.touches?.length == 1) {
             onMove(event.touches[0].pageX, event.touches[0].pageY);
         }
     }
@@ -42,7 +50,10 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
 
     function onMove(x, y: number) {
         
-        if (_downPos) {            
+        if (_downPos) {      
+            
+            node.style.backgroundColor = `lightgray`;
+
             node.style.cursor = "move";
             if(_orientation < Orientation.Vertical) {
                 var newX = x - _downPos.x - _parentRect.x;
@@ -83,13 +94,13 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
         _downPos = null;
     }
 
-    node.addEventListener("mousedown", onDown);   
-    node.addEventListener("touchstart", onDown); 
+    node.addEventListener("mousedown", onMouseDown);   
+    node.addEventListener("touchstart", onTouchStart); 
 
     return {
         destroy() {
-            node.removeEventListener('mousedown', onDown);
-            node.removeEventListener("touchstart", onDown);
+            node.removeEventListener('mousedown', onMouseDown);
+            node.removeEventListener("touchstart", onTouchStart);
         }
     };
 }
