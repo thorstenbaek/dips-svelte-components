@@ -111,26 +111,18 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
     }
 
     function dist(a: TouchEvent) {
-        var zw = a.touches[0].pageX - a.touches[1].pageX, zh = a.touches[0].pageY - a.touches[1].pageY;
-        return Math.sqrt(zw * zw + zh * zh);
+        if (a.touches.length > 1) {
+            var zw = a.touches[0].pageX - a.touches[1].pageX, zh = a.touches[0].pageY - a.touches[1].pageY;
+            return Math.sqrt(zw * zw + zh * zh);
+        }
+        else return 0;
     }
     
-
-    function pinchScale(deltaX: number, deltaY: number) {
-        const newWidth = _initialRect.width + deltaX;
-        const newHeight = _initialRect.height + deltaY;
-        node.style.left = `${_initialRect.left - deltaX/2}px`;
-        node.style.width = `${newWidth}px`; 
-        node.style.top = `${_initialRect.top - deltaY/2}px`;
-        node.style.height = `${newHeight}px`; 
-    }
-
     function onMouseDown(event: MouseEvent) {
         onDown(event, event.clientX, event.clientY);
     }
 
     function onTouchDown(event: TouchEvent) {
-        _initialRect = node.getBoundingClientRect();
         _dist1 = dist(event);
 
         if (event.touches.length == 1) {
@@ -140,7 +132,7 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
 
     function onDown(event: Event, x: number, y: number) {
         parent.addEventListener("mouseup", onUp);        
-        parent.addEventListener("touchend", onUp);
+        node.addEventListener("touchend", onUp);
         
         _parentRect = parent.getBoundingClientRect();
         _initialRect = node.getBoundingClientRect();
@@ -187,19 +179,19 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
         _previewDirection = null;
 
         parent.removeEventListener('mouseup', onUp);        
-        parent.removeEventListener('touchend', onUp);        
+        node.removeEventListener('touchend', onUp);        
     }
 
 
     node.addEventListener("mousedown", onMouseDown);    
     node.addEventListener("touchstart", onTouchDown);    
     parent.addEventListener('mousemove', onMouseMove);
-    parent.addEventListener("touchmove", onTouchMove);
+    node.addEventListener("touchmove", onTouchMove);
 
     return {
         destroy() {
             parent.removeEventListener('mousemove', onMouseMove);
-            parent.removeEventListener("touchmove", onTouchMove);
+            node.removeEventListener("touchmove", onTouchMove);
             node.removeEventListener('mousedown', onMouseDown);            
             node.removeEventListener('touchstart', onTouchDown);            
         }
