@@ -140,8 +140,8 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
     function onTouchMove(event: TouchEvent) {
         if (event.touches.length == 2) {
             doScale(
-                event.touches[1].clientX - event.touches[0].clientX, 
-                event.touches[1].clientY - event.touches[0].clientY);
+                event.touches[0].clientX - event.touches[1].clientX, 
+                event.touches[0].clientY - event.touches[1].clientY);
         }
     }
 
