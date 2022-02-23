@@ -11,6 +11,7 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
     let _parentRect: DOMRect = parent.getBoundingClientRect();
     let _initialRect: DOMRect = null;    
     let _downPos: DOMPoint = null;
+    let _dist1: number;
 
     function isNorth(pos: DOMPoint) {
         return pos.y - node.offsetTop - _parentRect.y < _offset;
@@ -109,6 +110,12 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
         }
     }
 
+    function dist(a: TouchEvent) {
+        var zw = a.touches[0].pageX - a.touches[1].pageX, zh = a.touches[0].pageY - a.touches[1].pageY;
+        return Math.sqrt(zw * zw + zh * zh);
+    }
+    
+
     function pinchScale(deltaX: number, deltaY: number) {
         const newWidth = _initialRect.width + deltaX;
         const newHeight = _initialRect.height + deltaY;
@@ -124,7 +131,8 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
 
     function onTouchDown(event: TouchEvent) {
         _initialRect = node.getBoundingClientRect();
-        
+        _dist1 = dist(event);
+
         if (event.touches.length == 1) {
             onDown(event, event.touches[0].clientX, event.touches[0].clientY);
         }
@@ -149,10 +157,9 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
     }
 
     function onTouchMove(event: TouchEvent) {
-        if (event.touches.length == 2) {
-            pinchScale(
-                event.touches[0].clientX - event.touches[1].clientX, 
-                event.touches[0].clientY - event.touches[1].clientY);
+        if (_dist1 && event.touches.length == 2) {
+            var rf = dist(event) / _dist1;
+            node.style.transform = `scale(${rf})`; 
         }
     }
 
@@ -176,6 +183,7 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
 
     function onUp(_: Event) {                        
         _direction = null;
+        _dist1 = null;
         _previewDirection = null;
 
         parent.removeEventListener('mouseup', onUp);        
