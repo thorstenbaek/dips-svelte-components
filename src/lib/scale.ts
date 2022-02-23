@@ -109,6 +109,15 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
         }
     }
 
+    function pinchScale(deltaX: number, deltaY: number) {
+        const newWidth = _initialRect.width + deltaX;
+        const newHeight = _initialRect.height + deltaY;
+        node.style.left = `${_initialRect.left - deltaX/2}px`;
+        node.style.width = `${newWidth}px`; 
+        node.style.top = `${_initialRect.top - deltaY/2}px`;
+        node.style.height = `${newHeight}px`; 
+    }
+
     function onMouseDown(event: MouseEvent) {
         onDown(event, event.clientX, event.clientY);
     }
@@ -139,7 +148,7 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
 
     function onTouchMove(event: TouchEvent) {
         if (event.touches.length == 2) {
-            doScale(
+            pinchScale(
                 event.touches[0].clientX - event.touches[1].clientX, 
                 event.touches[0].clientY - event.touches[1].clientY);
         }
