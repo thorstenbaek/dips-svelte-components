@@ -6,58 +6,52 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
     let _orientation: Orientation = orientation;
     let _downPos: DOMPoint;
     let _parentRect: DOMRect;
-    let _oldColor: string;
     const parent: HTMLElement = node.parentElement;
     
     function onTouchStart(event: TouchEvent) {
-        event.preventDefault();
         if (event.touches?.length == 1) {
-            onDown(event.touches[0].pageX, event.touches[0].pageY);
+            onDown(event, event.touches[0].pageX, event.touches[0].pageY);
         }
     }   
     
     function onMouseDown(event: MouseEvent) {
-        event.preventDefault();
-        onDown(event.clientX, event.clientY);
+        onDown(event, event.clientX, event.clientY);
     }
     
-    
-    function onDown(x, y: number) {
+    function onDown(event: Event, x, y: number) {
+        if (event.defaultPrevented) {            
+            return;
+        }
+
         _parentRect = parent.getBoundingClientRect();
         const nodeRect = node.getBoundingClientRect();
         _downPos = new DOMPoint(x - nodeRect.x, y - nodeRect.y);
         node.style.cursor = "move";
-        _oldColor = node.style.backgroundColor;
-        node.style.backgroundColor = `gray`;
-        node.style.touchAction = `none`;
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("mouseup", onUp);        
-        window.addEventListener("touchmove", onTouchMove);
-        window.addEventListener("touchend", onUp)
+        node.style.touchAction = `none`;        
+        node.addEventListener("mouseup", onUp);        
+        node.addEventListener("touchmove", onTouchMove);
+        node.addEventListener("touchend", onUp)
     }
 
     function onTouchMove(event: TouchEvent) {
-        event.preventDefault();
-        
         if (event.touches?.length == 1) {
-            onMove(event.touches[0].pageX, event.touches[0].pageY);
+            onMove(event, event.touches[0].pageX, event.touches[0].pageY);
         }
     }
 
-    function onMouseMove(event: MouseEvent) {
-        event.preventDefault();
-
-         
-        onMove(event.clientX, event.clientY);
+    function onMouseMove(event: MouseEvent) {        
+        onMove(event, event.clientX, event.clientY);        
     }
 
-    function onMove(x, y: number) {
-        
+    function onMove(event: Event, x, y: number) {          
+        if (event.defaultPrevented) {
+            return;
+        }
+
         if (_downPos) {      
             
-            node.style.backgroundColor = `lightgray`;
-
             node.style.cursor = "move";
+
             if(_orientation < Orientation.Vertical) {
                 var newX = x - _downPos.x - _parentRect.x;
                 if (newX <= 0) {
@@ -82,29 +76,28 @@ export default function move(node: HTMLElement, orientation: Orientation = Orien
                 }
 
                 node.style.top = `${newY}px`;
-
             }
+
+            event.preventDefault();
         }
     }
 
-    function onUp(event: MouseEvent) {                
-        event.preventDefault();
-        window.removeEventListener('mousemove', onMouseMove);
-		window.removeEventListener('mouseup', onUp);        
-        window.removeEventListener("touchmove", onTouchMove);
-        window.removeEventListener("touchend", onUp);     
+    function onUp(_: MouseEvent) {                		
+        node.removeEventListener('mouseup', onUp);        
+        node.removeEventListener("touchmove", onTouchMove);
+        node.removeEventListener("touchend", onUp);     
         node.style.cursor = "default";
-        node.style.touchAction = `auto`;
-        node.style.backgroundColor = _oldColor;
         _downPos = null;
     }
 
     node.addEventListener("mousedown", onMouseDown);   
+    node.addEventListener("mousemove", onMouseMove);
     node.addEventListener("touchstart", onTouchStart); 
 
     return {
         destroy() {
             node.removeEventListener('mousedown', onMouseDown);
+            node.removeEventListener('mousemove', onMouseMove);
             node.removeEventListener("touchstart", onTouchStart);
         }
     };
