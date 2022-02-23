@@ -123,6 +123,8 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
     }
 
     function onTouchDown(event: TouchEvent) {
+        _initialRect = node.getBoundingClientRect();
+        
         if (event.touches.length == 1) {
             onDown(event, event.touches[0].clientX, event.touches[0].clientY);
         }
