@@ -13,6 +13,7 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
     let _downPos: DOMPoint = null;
     let _dist1: number;
     let _scale: number = 1;
+    let _change: number;
 
     function isNorth(pos: DOMPoint) {
         return pos.y - node.offsetTop - _parentRect.y < _offset;
@@ -151,9 +152,8 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
 
     function onTouchMove(event: TouchEvent) {
         if (_dist1 && event.touches.length == 2) {
-            var rf = dist(event) / _dist1 * _scale;
-            _scale = rf;
-            node.style.transform = `scale(${rf})`; 
+            _change = dist(event) / _dist1 * _scale;            
+            node.style.transform = `scale(${_change})`; 
         }
     }
 
@@ -178,6 +178,7 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
     function onUp(_: Event) {                        
         _direction = null;
         _dist1 = null;
+        _scale = _change;
         _previewDirection = null;
 
         parent.removeEventListener('mouseup', onUp);        
