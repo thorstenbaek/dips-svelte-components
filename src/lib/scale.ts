@@ -1,3 +1,4 @@
+import { dirty_components } from "svelte/internal";
 import type {Action} from "./action";
 import {Orientation} from "./orientation";
 
@@ -11,35 +12,35 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
     let _initialRect: DOMRect = null;    
     let _downPos: DOMPoint = null;
 
-    function isNorth(event:MouseEvent) {
-        return event.clientY - node.offsetTop - _parentRect.y < _offset;
+    function isNorth(pos: DOMPoint) {
+        return pos.y - node.offsetTop - _parentRect.y < _offset;
     }
     
-    function isSouth(event: MouseEvent) {
-        return event.clientY - node.offsetTop - _parentRect.y > node.offsetHeight - _offset;
+    function isSouth(pos: DOMPoint) {
+        return pos.y - node.offsetTop - _parentRect.y > node.offsetHeight - _offset;
     }
 
-    function isWest(event: MouseEvent) {
-        return event.clientX - node.offsetLeft - _parentRect.x < _offset;
+    function isWest(pos: DOMPoint) {
+        return pos.x - node.offsetLeft - _parentRect.x < _offset;
     }
 
-    function isEast(event: MouseEvent) {
-        return event.clientX - node.offsetLeft - _parentRect.x > node.offsetWidth - _offset;
+    function isEast(pos: DOMPoint) {
+        return pos.x - node.offsetLeft - _parentRect.x > node.offsetWidth - _offset;
     }
 
-    function getDirection(event: MouseEvent): string {
-        if (isNorth(event)) {
-            if (isWest(event)) return "nw";
-            else if (isEast(event)) return "ne";            
+    function getDirection(pos: DOMPoint): string {
+        if (isNorth(pos)) {
+            if (isWest(pos)) return "nw";
+            else if (isEast(pos)) return "ne";            
             else return "n";            
         }
-        else if (isSouth(event)) {
-            if (isWest(event)) return "sw";            
-            else if (isEast(event)) return "se";            
+        else if (isSouth(pos)) {
+            if (isWest(pos)) return "sw";            
+            else if (isEast(pos)) return "se";            
             else return "s";            
         }
-        else if (isWest(event)) return "w";
-        else if (isEast(event)) return "e";        
+        else if (isWest(pos)) return "w";
+        else if (isEast(pos)) return "e";        
         else {            
             return null;
         }
@@ -67,7 +68,7 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
         node.style.width = `${newWidth}px`; 
     }
 
-    function doScale(deltaX, deltaY: number) {
+    function doScale(deltaX: number, deltaY: number) {
         switch (_direction) {
             case "n": {                
                 scaleNorth(deltaY);
@@ -108,28 +109,50 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
         }
     }
 
-    function onDown(event: MouseEvent) {
+    function onMouseDown(event: MouseEvent) {
+        onDown(event, event.clientX, event.clientY);
+    }
+
+    function onTouchDown(event: TouchEvent) {
+        if (event.touches.length == 1) {
+            onDown(event, event.touches[0].clientX, event.touches[0].clientY);
+        }
+    }
+
+    function onDown(event: Event, x: number, y: number) {
         parent.addEventListener("mouseup", onUp);        
+        parent.addEventListener("touchend", onUp);
+        
         _parentRect = parent.getBoundingClientRect();
         _initialRect = node.getBoundingClientRect();
-        _direction = getDirection(event);        
-        _downPos = new DOMPoint(event.clientX, event.clientY);
+        _downPos = new DOMPoint(x, y);
+        _direction = getDirection(_downPos);                
 
         if (_downPos && _direction) {            
             event.preventDefault();
         }
     }
-    
-    function onMove(event: MouseEvent) {        
+
+    function onMouseMove(event: MouseEvent) {
+        onMove(event, event.clientX, event.clientY);
+    }
+
+    function onTouchMove(event: TouchEvent) {
+        if (event.touches.length == 1) {
+            onMove(event, event.touches[0].clientX, event.touches[0].clientY);
+        }
+    }
+
+    function onMove(event: Event, x: number, y: number) {        
         if (_downPos && _direction)
         {
             event.preventDefault();
-            doScale(event.clientX - _downPos.x, event.clientY - _downPos.y);
+            doScale(x - _downPos.x, y - _downPos.y);
 
             return;
         }
 
-        _previewDirection = getDirection(event);
+        _previewDirection = getDirection(new DOMPoint(x, y));
         
         if (_previewDirection) {
             node.style.cursor = `${_previewDirection}-resize`;            
@@ -138,21 +161,26 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
         }
     }
 
-    function onUp(event: MouseEvent) {                        
+    function onUp(_: Event) {                        
         _direction = null;
         _previewDirection = null;
 
-        node.removeEventListener('mouseup', onUp);        
+        parent.removeEventListener('mouseup', onUp);        
+        parent.removeEventListener('touchend', onUp);        
     }
 
 
-    node.addEventListener("mousedown", onDown);    
-    parent.addEventListener('mousemove', onMove);
+    node.addEventListener("mousedown", onMouseDown);    
+    node.addEventListener("touchstart", onTouchDown);    
+    parent.addEventListener('mousemove', onMouseMove);
+    parent.addEventListener("touchmove", onTouchMove);
 
     return {
         destroy() {
-            parent.removeEventListener('mousemove', onMove);
-            node.removeEventListener('mousedown', onDown);            
+            parent.removeEventListener('mousemove', onMouseMove);
+            parent.removeEventListener("touchmove", onTouchMove);
+            node.removeEventListener('mousedown', onMouseDown);            
+            node.removeEventListener('touchstart', onTouchDown);            
         }
     };
 }
