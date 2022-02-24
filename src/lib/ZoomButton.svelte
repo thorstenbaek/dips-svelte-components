@@ -1,14 +1,17 @@
 <script lang="ts">
-    import {Orientation} from "./orientation";
-    import move from "./move";
-    import scale from "./scale";
+    import transformation from "./transformation";
+    import tracking from "./tracking";
 
-
+    function onTrack(event: CustomEvent){        
+        event.detail.target.innerText = Math.round(event.detail.rect.x) + ", " + Math.round(event.detail.rect.y);
+    };
+    
 
 </script>
 
-<div class="button2" use:scale use:move  />
-<div class="button" use:scale use:move />
+
+<div class="button" use:transformation use:tracking on:track={onTrack}/>    
+<div class="button2" use:transformation use:tracking on:track={onTrack}/>
 
 <style>
     .button {    
@@ -23,7 +26,7 @@
         background-color: blue;
     }
 
-    .button2 {    
+    .button2 {            
         position: absolute;
         left: 350px;
         top: 150px;

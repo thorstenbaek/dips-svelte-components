@@ -2,14 +2,16 @@ import { dirty_components } from "svelte/internal";
 import type {Action} from "./action";
 import {Orientation} from "./orientation";
 
-export default function scale(node: HTMLElement, orientation: Orientation = Orientation.Free): ReturnType<Action> {    
+export default function scale(node: HTMLElement, factor: number = 1.0): ReturnType<Action> {    
+
+    console.log("factor", factor);
 
     const _offset: number = 15;    
     const parent: HTMLElement = node.parentElement;
     let _direction: string = null;
     let _previewDirection: string = null;
     let _parentRect: DOMRect = parent.getBoundingClientRect();
-    let _initialRect: DOMRect = null;    
+    let _initialRect: DOMRect = node.getBoundingClientRect();    
     let _downPos: DOMPoint = null;
     let _dist1: number;
     let _scale: number = 1;
@@ -150,19 +152,26 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
         onMove(event, event.clientX, event.clientY);
     }
 
+    function manualScale(f: number) {
+        var scaleMatrix = new  DOMMatrixReadOnly().scale(f);
+        var translateMatrix = new DOMMatrixReadOnly().translate(f, f);
+        
+        var transformMatrix = translateMatrix.multiply(scaleMatrix);
+        var topLeft = transformMatrix.transformPoint(new DOMPoint(_initialRect.left, _initialRect.top));
+        var bottomRight = transformMatrix.transformPoint(new DOMPoint(_initialRect.right, _initialRect.bottom));
+
+        node.style.left = `${topLeft.x}px`; 
+        node.style.top = `${topLeft.y}px`; 
+        node.style.width = `${bottomRight.x - topLeft.x}px`; 
+        node.style.height = `${bottomRight.y - topLeft.y}px`; 
+
+    }
+
     function onTouchMove(event: TouchEvent) {
         if (_dist1 && event.touches.length == 2) {
             _change = dist(event) / _dist1 * _scale;            
             //node.style.transform = `scale(${_change})`; 
-
-            var test = new  DOMMatrixReadOnly().scale(_change);
-            var topLeft = test.transformPoint(new DOMPoint(_initialRect.left, _initialRect.top));
-            var bottomRight = test.transformPoint(new DOMPoint(_initialRect.right, _initialRect.bottom));
-
-            node.style.left = `${topLeft.x}px`; 
-            node.style.top = `${topLeft.y}px`; 
-            node.style.right = `${bottomRight.x}px`; 
-            node.style.bottom = `${bottomRight.y}px`; 
+            manualScale(_change);            
         }
     }
 
@@ -194,6 +203,7 @@ export default function scale(node: HTMLElement, orientation: Orientation = Orie
         node.removeEventListener('touchend', onUp);        
     }
 
+    manualScale(factor);
 
     node.addEventListener("mousedown", onMouseDown);    
     node.addEventListener("touchstart", onTouchDown);    
