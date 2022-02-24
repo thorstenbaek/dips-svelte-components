@@ -3,9 +3,14 @@ import {Orientation} from "./orientation";
 
 export default function transformation(element: HTMLElement): ReturnType<Action> {    
     
-    let _transformation: DOMMatrix = new DOMMatrix();
-    let _current: DOMMatrix;
+    let _translation: DOMMatrixReadOnly = new DOMMatrixReadOnly();
+    let _newTranslation: DOMMatrixReadOnly = new DOMMatrixReadOnly();
+    let _scale: DOMMatrixReadOnly = new DOMMatrixReadOnly();
+    let _newScale: DOMMatrixReadOnly = new DOMMatrixReadOnly();
+
     let _initialPoint: DOMPoint;
+    let _doScale: boolean = false;
+    let _dist: number;
 
 
     function distance(p1: DOMPointReadOnly, p2: DOMPointReadOnly): number {
@@ -16,11 +21,20 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
         
     }
 
-    function onTouchStart(event: TouchEvent) {
+    function onKeyDown(event: KeyboardEvent) {
+        _doScale = event.ctrlKey;
+    }
+
+    function onTouchStart(event: TouchEvent) {        
         if (event.touches?.length == 1) {
             onDown(event, event.touches[0].pageX, event.touches[0].pageY);
+        }        
+        else if (event.touches?.length > 1) {
+            _dist = distance(
+                new DOMPoint(event.touches[0].pageX, event.touches[0].pageY), 
+                new DOMPoint(event.touches[1].pageX, event.touches[1].pageY));
         }
-    }   
+    }       
     
     function onMouseDown(event: MouseEvent) {
         onDown(event, event.clientX, event.clientY);
@@ -32,38 +46,66 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
         window.addEventListener("mouseup", onUp);   
         element.addEventListener("touchend", onUp);
         _initialPoint = new DOMPoint(x, y);                
+
+        _newTranslation = new DOMMatrixReadOnly();
+        _newScale = new DOMMatrixReadOnly();
         event.preventDefault();
     }
 
     function onTouchMove(event: TouchEvent) {
         if (event.touches?.length == 1) {
             onMove(event, event.touches[0].pageX, event.touches[0].pageY);
+        } 
+        else if (_dist && event.touches?.length > 1) {
+            var d = distance(
+                new DOMPoint(event.touches[0].pageX, event.touches[0].pageY), 
+                new DOMPoint(event.touches[1].pageX, event.touches[1].pageY));
+            onScale(event, d/_dist)
         }
     }
 
     function onMouseMove(event: MouseEvent) {
-        onMove(event, event.clientX, event.clientY);
+        if (_doScale) {
+            var dist = distance(new DOMPoint(event.clientX, event.clientY), _initialPoint);            
+            var scale = dist/20;
+            onScale(event, scale);
+        }
+        else {
+            onMove(event, event.clientX, event.clientY);
+        }
+    }
+
+    function applyTransformations() {        
+        var transform = _newTranslation.multiply(_newScale);        
+        element.style.transform = `${transform}`;   
     }
 
     function onMove(event: Event, x: number, y: number) {
-        if (_initialPoint) {            
-            _current = _transformation;
-
-            _current = _current.multiply(new DOMMatrixReadOnly().translate(
-                x - _initialPoint.x, y - _initialPoint.y));
-            //_transformation = _transformation.multiply(new DOMMatrixReadOnly().rotate(0.1));
-            //_transformation = _transformation.multiply(new DOMMatrixReadOnly().scale(1.01, 1.01, 1.01, 0.0, 0.0, 0.0));
-            
-            element.style.transform = `${_current}`;   
-            
-            const box = element.getBoundingClientRect();
+        if (_initialPoint) {                       
+            _newScale = _scale;
+            _newTranslation = _translation.multiply(new DOMMatrixReadOnly().translate(x - _initialPoint.x, y - _initialPoint.y));            
+            applyTransformations();
             event.preventDefault();
         }
     }
 
-    function onUp(event: MouseEvent) {
+    function onScale(event: Event, scale: number) {
+        if (_initialPoint) {                       
+            _newTranslation = _translation;
+            _newScale = _scale.multiply(new DOMMatrixReadOnly().scale(scale));
+            applyTransformations();            
+            event.preventDefault();
+        }
+    }
+
+    function onUp(event: Event) {
+        _doScale = false; 
         _initialPoint = null;
-        _transformation = _current;
+
+        // accumulate current translation
+        _translation = _newTranslation;
+        _scale = _newScale;
+
         window.removeEventListener("mouseup", onUp);   
         element.removeEventListener("touchend", onUp);   
         window.removeEventListener("mousemove", onMouseMove);   
@@ -74,6 +116,8 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
 
     element.addEventListener("mousedown", onMouseDown);   
     element.addEventListener("touchstart", onTouchStart);
+    window.addEventListener("keydown", onKeyDown)
+    window.addEventListener("keyup", onUp)
     
 
     return {
@@ -83,6 +127,7 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
         destroy() {
             element.removeEventListener("mousedown", onMouseDown);   
             window.removeEventListener("mousemove", onMouseMove);
+            element.removeEventListener("touchstart", onTouchStart);
         }
     };
 }
