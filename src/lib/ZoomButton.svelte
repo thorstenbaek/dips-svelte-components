@@ -1,7 +1,7 @@
 <script lang="ts">
     import transformation from "./transformation";
     import tracking from "./tracking";
-import { Orientation } from "./orientation";
+    import { Orientation } from "./orientation";
 
     function onTrack(event: CustomEvent){        
         event.detail.target.innerText = Math.round(event.detail.rect.x) + ", " + Math.round(event.detail.rect.y);
@@ -14,8 +14,7 @@ import { Orientation } from "./orientation";
 <!-- <div class="button" use:transformation use:tracking on:track={onTrack}/>    
 <div class="button2" use:transformation use:tracking on:track={onTrack}/> -->
 
-<div class="button" use:transformation />    
-
+<div class="button" use:transformation={Orientation.Horizontal} />    
 
 <style>
     .button {    

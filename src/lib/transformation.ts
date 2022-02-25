@@ -1,7 +1,7 @@
 import type {Action} from "./action";
 import {Orientation} from "./orientation";
 
-export default function transformation(element: HTMLElement): ReturnType<Action> {    
+export default function transformation(element: HTMLElement, orientation: Orientation = Orientation.Free): ReturnType<Action> {    
     
     let _translation: DOMMatrixReadOnly = new DOMMatrixReadOnly();
     let _newTranslation: DOMMatrixReadOnly = new DOMMatrixReadOnly();
@@ -86,7 +86,15 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
     function onMove(event: Event, x: number, y: number) {
         if (_initialPoint) {                       
             _newScale = _scale;
-            _newTranslation = _translation.multiply(new DOMMatrixReadOnly().translate(x - _initialPoint.x, y - _initialPoint.y));            
+            _newTranslation = _translation;
+            
+            if (orientation < 2) {
+                _newTranslation = _newTranslation.multiply(new DOMMatrixReadOnly().translate(x - _initialPoint.x, 0));            
+            }
+            if (orientation != 1) {
+                _newTranslation = _newTranslation.multiply(new DOMMatrixReadOnly().translate(0, y - _initialPoint.y));            
+            }
+            
             applyTransformations();
             event.preventDefault();
         }
