@@ -45,6 +45,8 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
         element.addEventListener("touchmove", onTouchMove);
         window.addEventListener("mouseup", onUp);   
         element.addEventListener("touchend", onUp);
+        window.addEventListener("mouseleave", onUp);
+        window.addEventListener("blur", onUp);
         _initialPoint = new DOMPoint(x, y);                
 
         _newTranslation = new DOMMatrixReadOnly();
@@ -118,7 +120,6 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
     element.addEventListener("touchstart", onTouchStart);
     window.addEventListener("keydown", onKeyDown)
     window.addEventListener("keyup", onUp)
-    
 
     return {
         update() {
@@ -126,8 +127,9 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
         },
         destroy() {
             element.removeEventListener("mousedown", onMouseDown);   
-            window.removeEventListener("mousemove", onMouseMove);
             element.removeEventListener("touchstart", onTouchStart);
+            window.removeEventListener("keydown", onKeyDown)
+            window.removeEventListener("keyup", onUp)
         }
     };
 }
