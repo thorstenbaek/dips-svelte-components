@@ -26,10 +26,11 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
     }
 
     function onTouchStart(event: TouchEvent) {        
-        if (event.touches?.length == 1) {
+        if (event.touches?.length > 0) {
             onDown(event, event.touches[0].pageX, event.touches[0].pageY);
         }        
-        else if (event.touches?.length > 1) {
+        
+        if (event.touches?.length > 1) {
             _dist = distance(
                 new DOMPoint(event.touches[0].pageX, event.touches[0].pageY), 
                 new DOMPoint(event.touches[1].pageX, event.touches[1].pageY));
@@ -55,10 +56,10 @@ export default function transformation(element: HTMLElement): ReturnType<Action>
     }
 
     function onTouchMove(event: TouchEvent) {
-        if (event.touches?.length == 1) {
+        if (event.touches?.length > 0) {
             onMove(event, event.touches[0].pageX, event.touches[0].pageY);
         } 
-        else if (_dist && event.touches?.length > 1) {
+        if (_dist && event.touches?.length > 1) {
             var d = distance(
                 new DOMPoint(event.touches[0].pageX, event.touches[0].pageY), 
                 new DOMPoint(event.touches[1].pageX, event.touches[1].pageY));
