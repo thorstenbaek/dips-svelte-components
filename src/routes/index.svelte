@@ -1,21 +1,16 @@
 <script>
-	import TimeSlider from '../lib/TimeSlider.svelte';    
+    import Timeline from '../lib/Timeline/Timeline.svelte';    
 </script>
 
 <div class="main">
-    <TimeSlider/>
+    <Timeline/>
 </div>
 
 <style>
     .main {
         position:relative;
-        left: 10%;
-        width: 80%;
-        height: 100%;
-        display: flex;
         justify-content: center;
         align-items: center;
-        touch-action: none;
+        touch-action: none;        
     }
-
 </style>

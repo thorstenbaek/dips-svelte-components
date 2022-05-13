@@ -11,7 +11,7 @@ export default function transformation(element: HTMLElement, orientation: Orient
     let _initialPoint: DOMPoint;
     let _doScale: boolean = false;
     let _dist: number;
-
+    let _active: boolean = false;
 
     function distance(p1: DOMPointReadOnly, p2: DOMPointReadOnly): number {
         return Math.sqrt(
@@ -52,6 +52,8 @@ export default function transformation(element: HTMLElement, orientation: Orient
 
         _newTranslation = new DOMMatrixReadOnly();
         _newScale = new DOMMatrixReadOnly();
+        _active = true;
+        element.dispatchEvent(new CustomEvent("active", {detail: true}));
         event.preventDefault();
     }
 
@@ -81,6 +83,11 @@ export default function transformation(element: HTMLElement, orientation: Orient
     function applyTransformations() {        
         var transform = _newTranslation.multiply(_newScale);        
         element.style.transform = `${transform}`;   
+
+        const rect: DOMRectReadOnly = element.getBoundingClientRect();
+        if (_active) {
+            element.dispatchEvent(new CustomEvent("track", {detail: rect}));
+        }
     }
 
     function onMove(event: Event, x: number, y: number) {
@@ -103,13 +110,20 @@ export default function transformation(element: HTMLElement, orientation: Orient
     function onScale(event: Event, scale: number) {
         if (_initialPoint) {                       
             _newTranslation = _translation;
-            _newScale = _scale.multiply(new DOMMatrixReadOnly().scale(scale));
+            _newScale = _scale;
+            if (orientation < 2) {
+                _newScale = _newScale.multiply(new DOMMatrixReadOnly().scale(scale, 1.0));
+            }
+            if (orientation != 1) {
+                _newScale = _newScale.multiply(new DOMMatrixReadOnly().scale(1.0, scale));
+            }
             applyTransformations();            
             event.preventDefault();
         }
     }
 
     function onUp(event: Event) {
+        _active = false;
         _doScale = false; 
         _initialPoint = null;
 
@@ -121,6 +135,7 @@ export default function transformation(element: HTMLElement, orientation: Orient
         element.removeEventListener("touchend", onUp);   
         window.removeEventListener("mousemove", onMouseMove);   
         element.removeEventListener("touchmove", onTouchMove);
+        element.dispatchEvent(new CustomEvent("active", {detail: false}));
         event.preventDefault();
     
     }
@@ -130,11 +145,23 @@ export default function transformation(element: HTMLElement, orientation: Orient
     window.addEventListener("keydown", onKeyDown)
     window.addEventListener("keyup", onUp)
 
+    // var observer = new MutationObserver(record => {
+    //     var target = record[0].target as HTMLElement;
+        
+    //     const rect: DOMRectReadOnly = target.getBoundingClientRect();
+    //     if (_active) {
+    //         dispatch("track",rect);
+    //     }
+    // });        
+        
+    //observer.observe(element, { attributes : true, attributeFilter : ['style', 'transform'] });
+
     return {
         update() {
 
         },
         destroy() {
+            //observer.disconnect();
             element.removeEventListener("mousedown", onMouseDown);   
             element.removeEventListener("touchstart", onTouchStart);
             window.removeEventListener("keydown", onKeyDown)

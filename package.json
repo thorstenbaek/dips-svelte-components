@@ -30,6 +30,7 @@
   "type": "module",
   "dependencies": {
     "@sveltejs/adapter-vercel": "next",
+    "svelte-canvas": "^0.7.1",
     "svelte2tsx": "^0.5.5"
   }
 }

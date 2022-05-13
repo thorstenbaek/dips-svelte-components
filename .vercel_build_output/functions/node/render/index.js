@@ -241,9 +241,9 @@ var init_multipart_parser = __esm({
         const clear = (name) => {
           delete this[name + "Mark"];
         };
-        const callback = (callbackSymbol, start, end, ui8a) => {
-          if (start === void 0 || start !== end) {
-            this[callbackSymbol](ui8a && ui8a.subarray(start, end));
+        const callback = (callbackSymbol, start3, end, ui8a) => {
+          if (start3 === void 0 || start3 !== end) {
+            this[callbackSymbol](ui8a && ui8a.subarray(start3, end));
           }
         };
         const dataCallback = (name, clear2) => {
@@ -947,7 +947,7 @@ var init_install_fetch = __esm({
         factory(exports);
       })(commonjsGlobal, function(exports2) {
         const SymbolPolyfill = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? Symbol : (description) => `Symbol(${description})`;
-        function noop3() {
+        function noop5() {
           return void 0;
         }
         function getGlobals() {
@@ -964,7 +964,7 @@ var init_install_fetch = __esm({
         function typeIsObject(x2) {
           return typeof x2 === "object" && x2 !== null || typeof x2 === "function";
         }
-        const rethrowAssertionErrorRejection = noop3;
+        const rethrowAssertionErrorRejection = noop5;
         const originalPromise = Promise;
         const originalPromiseThen = Promise.prototype.then;
         const originalPromiseResolve = Promise.resolve.bind(originalPromise);
@@ -2269,13 +2269,13 @@ var init_install_fetch = __esm({
           assertDictionary(original, context);
           const abort = original === null || original === void 0 ? void 0 : original.abort;
           const close = original === null || original === void 0 ? void 0 : original.close;
-          const start = original === null || original === void 0 ? void 0 : original.start;
+          const start3 = original === null || original === void 0 ? void 0 : original.start;
           const type = original === null || original === void 0 ? void 0 : original.type;
           const write = original === null || original === void 0 ? void 0 : original.write;
           return {
             abort: abort === void 0 ? void 0 : convertUnderlyingSinkAbortCallback(abort, original, `${context} has member 'abort' that`),
             close: close === void 0 ? void 0 : convertUnderlyingSinkCloseCallback(close, original, `${context} has member 'close' that`),
-            start: start === void 0 ? void 0 : convertUnderlyingSinkStartCallback(start, original, `${context} has member 'start' that`),
+            start: start3 === void 0 ? void 0 : convertUnderlyingSinkStartCallback(start3, original, `${context} has member 'start' that`),
             write: write === void 0 ? void 0 : convertUnderlyingSinkWriteCallback(write, original, `${context} has member 'write' that`),
             type
           };
@@ -3173,7 +3173,7 @@ var init_install_fetch = __esm({
                 return newPromise((resolveRead, rejectRead) => {
                   ReadableStreamDefaultReaderRead(reader, {
                     _chunkSteps: (chunk) => {
-                      currentWrite = PerformPromiseThen(WritableStreamDefaultWriterWrite(writer, chunk), void 0, noop3);
+                      currentWrite = PerformPromiseThen(WritableStreamDefaultWriterWrite(writer, chunk), void 0, noop5);
                       resolveRead(false);
                     },
                     _closeSteps: () => resolveRead(true),
@@ -3812,13 +3812,13 @@ var init_install_fetch = __esm({
           const autoAllocateChunkSize = original === null || original === void 0 ? void 0 : original.autoAllocateChunkSize;
           const cancel = original === null || original === void 0 ? void 0 : original.cancel;
           const pull = original === null || original === void 0 ? void 0 : original.pull;
-          const start = original === null || original === void 0 ? void 0 : original.start;
+          const start3 = original === null || original === void 0 ? void 0 : original.start;
           const type = original === null || original === void 0 ? void 0 : original.type;
           return {
             autoAllocateChunkSize: autoAllocateChunkSize === void 0 ? void 0 : convertUnsignedLongLongWithEnforceRange(autoAllocateChunkSize, `${context} has member 'autoAllocateChunkSize' that`),
             cancel: cancel === void 0 ? void 0 : convertUnderlyingSourceCancelCallback(cancel, original, `${context} has member 'cancel' that`),
             pull: pull === void 0 ? void 0 : convertUnderlyingSourcePullCallback(pull, original, `${context} has member 'pull' that`),
-            start: start === void 0 ? void 0 : convertUnderlyingSourceStartCallback(start, original, `${context} has member 'start' that`),
+            start: start3 === void 0 ? void 0 : convertUnderlyingSourceStartCallback(start3, original, `${context} has member 'start' that`),
             type: type === void 0 ? void 0 : convertReadableStreamType(type, `${context} has member 'type' that`)
           };
         }
@@ -3883,13 +3883,13 @@ var init_install_fetch = __esm({
         }
         function convertReadableWritablePair(pair, context) {
           assertDictionary(pair, context);
-          const readable2 = pair === null || pair === void 0 ? void 0 : pair.readable;
-          assertRequiredField(readable2, "readable", "ReadableWritablePair");
-          assertReadableStream(readable2, `${context} has member 'readable' that`);
-          const writable2 = pair === null || pair === void 0 ? void 0 : pair.writable;
-          assertRequiredField(writable2, "writable", "ReadableWritablePair");
-          assertWritableStream(writable2, `${context} has member 'writable' that`);
-          return { readable: readable2, writable: writable2 };
+          const readable3 = pair === null || pair === void 0 ? void 0 : pair.readable;
+          assertRequiredField(readable3, "readable", "ReadableWritablePair");
+          assertReadableStream(readable3, `${context} has member 'readable' that`);
+          const writable3 = pair === null || pair === void 0 ? void 0 : pair.writable;
+          assertRequiredField(writable3, "writable", "ReadableWritablePair");
+          assertWritableStream(writable3, `${context} has member 'writable' that`);
+          return { readable: readable3, writable: writable3 };
         }
         class ReadableStream2 {
           constructor(rawUnderlyingSource = {}, rawStrategy = {}) {
@@ -4068,7 +4068,7 @@ var init_install_fetch = __esm({
             reader._readIntoRequests = new SimpleQueue();
           }
           const sourceCancelPromise = stream._readableStreamController[CancelSteps](reason);
-          return transformPromiseWith(sourceCancelPromise, noop3);
+          return transformPromiseWith(sourceCancelPromise, noop5);
         }
         function ReadableStreamClose(stream) {
           stream._state = "closed";
@@ -4215,13 +4215,13 @@ var init_install_fetch = __esm({
           assertDictionary(original, context);
           const flush = original === null || original === void 0 ? void 0 : original.flush;
           const readableType = original === null || original === void 0 ? void 0 : original.readableType;
-          const start = original === null || original === void 0 ? void 0 : original.start;
+          const start3 = original === null || original === void 0 ? void 0 : original.start;
           const transform = original === null || original === void 0 ? void 0 : original.transform;
           const writableType = original === null || original === void 0 ? void 0 : original.writableType;
           return {
             flush: flush === void 0 ? void 0 : convertTransformerFlushCallback(flush, original, `${context} has member 'flush' that`),
             readableType,
-            start: start === void 0 ? void 0 : convertTransformerStartCallback(start, original, `${context} has member 'start' that`),
+            start: start3 === void 0 ? void 0 : convertTransformerStartCallback(start3, original, `${context} has member 'start' that`),
             transform: transform === void 0 ? void 0 : convertTransformerTransformCallback(transform, original, `${context} has member 'transform' that`),
             writableType
           };
@@ -4467,10 +4467,10 @@ var init_install_fetch = __esm({
           if (stream._backpressure) {
             const backpressureChangePromise = stream._backpressureChangePromise;
             return transformPromiseWith(backpressureChangePromise, () => {
-              const writable2 = stream._writable;
-              const state = writable2._state;
+              const writable3 = stream._writable;
+              const state = writable3._state;
               if (state === "erroring") {
-                throw writable2._storedError;
+                throw writable3._storedError;
               }
               return TransformStreamDefaultControllerPerformTransform(controller, chunk);
             });
@@ -4482,18 +4482,18 @@ var init_install_fetch = __esm({
           return promiseResolvedWith(void 0);
         }
         function TransformStreamDefaultSinkCloseAlgorithm(stream) {
-          const readable2 = stream._readable;
+          const readable3 = stream._readable;
           const controller = stream._transformStreamController;
           const flushPromise = controller._flushAlgorithm();
           TransformStreamDefaultControllerClearAlgorithms(controller);
           return transformPromiseWith(flushPromise, () => {
-            if (readable2._state === "errored") {
-              throw readable2._storedError;
+            if (readable3._state === "errored") {
+              throw readable3._storedError;
             }
-            ReadableStreamDefaultControllerClose(readable2._readableStreamController);
+            ReadableStreamDefaultControllerClose(readable3._readableStreamController);
           }, (r2) => {
             TransformStreamError(stream, r2);
-            throw readable2._storedError;
+            throw readable3._storedError;
           });
         }
         function TransformStreamDefaultSourcePullAlgorithm(stream) {
@@ -4634,9 +4634,9 @@ var init_install_fetch = __esm({
           }
         });
       }
-      slice(start = 0, end = this.size, type = "") {
+      slice(start3 = 0, end = this.size, type = "") {
         const { size } = this;
-        let relativeStart = start < 0 ? Math.max(size + start, 0) : Math.min(start, size);
+        let relativeStart = start3 < 0 ? Math.max(size + start3, 0) : Math.min(start3, size);
         let relativeEnd = end < 0 ? Math.max(size + end, 0) : Math.min(end, size);
         const span = Math.max(relativeEnd - relativeStart, 0);
         const parts = __privateGet(this, _parts);
@@ -5419,7 +5419,9 @@ var init_install_fetch = __esm({
   }
 });
 
-// .svelte-kit/output/server/chunks/index-2dc61825.js
+// .svelte-kit/output/server/chunks/index-19e440a3.js
+function noop2() {
+}
 function run(fn) {
   return fn();
 }
@@ -5429,6 +5431,20 @@ function blank_object() {
 function run_all(fns) {
   fns.forEach(run);
 }
+function safe_not_equal(a, b) {
+  return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
+}
+function subscribe(store, ...callbacks) {
+  if (store == null) {
+    return noop2;
+  }
+  const unsub = store.subscribe(...callbacks);
+  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+}
+function listen(node, event, handler, options) {
+  node.addEventListener(event, handler, options);
+  return () => node.removeEventListener(event, handler, options);
+}
 function set_current_component(component) {
   current_component = component;
 }
@@ -5437,8 +5453,20 @@ function get_current_component() {
     throw new Error("Function called outside component initialization");
   return current_component;
 }
+function onDestroy(fn) {
+  get_current_component().$$.on_destroy.push(fn);
+}
 function setContext(key2, context) {
   get_current_component().$$.context.set(key2, context);
+}
+function getContext(key2) {
+  return get_current_component().$$.context.get(key2);
+}
+function bubble(component, event) {
+  const callbacks = component.$$.callbacks[event.type];
+  if (callbacks) {
+    callbacks.slice().forEach((fn) => fn.call(this, event));
+  }
 }
 function escape(html) {
   return String(html).replace(/["'&<>]/g, (match) => escaped[match]);
@@ -5485,10 +5513,41 @@ function create_ssr_component(fn) {
     $$render
   };
 }
-var current_component, escaped, missing_component, on_destroy;
-var init_index_2dc61825 = __esm({
-  ".svelte-kit/output/server/chunks/index-2dc61825.js"() {
+function add_attribute(name, value, boolean) {
+  if (value == null || boolean && !value)
+    return "";
+  return ` ${name}${value === true && boolean_attributes.has(name) ? "" : `=${typeof value === "string" ? JSON.stringify(escape(value)) : `"${value}"`}`}`;
+}
+var current_component, boolean_attributes, escaped, missing_component, on_destroy;
+var init_index_19e440a3 = __esm({
+  ".svelte-kit/output/server/chunks/index-19e440a3.js"() {
     Promise.resolve();
+    boolean_attributes = /* @__PURE__ */ new Set([
+      "allowfullscreen",
+      "allowpaymentrequest",
+      "async",
+      "autofocus",
+      "autoplay",
+      "checked",
+      "controls",
+      "default",
+      "defer",
+      "disabled",
+      "formnovalidate",
+      "hidden",
+      "ismap",
+      "loop",
+      "multiple",
+      "muted",
+      "nomodule",
+      "novalidate",
+      "open",
+      "playsinline",
+      "readonly",
+      "required",
+      "reversed",
+      "selected"
+    ]);
     escaped = {
       '"': "&quot;",
       "'": "&#39;",
@@ -5510,7 +5569,7 @@ __export(layout_svelte_exports, {
 var Layout;
 var init_layout_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/layout.svelte.js"() {
-    init_index_2dc61825();
+    init_index_19e440a3();
     Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${slots.default ? slots.default({}) : ``}`;
     });
@@ -5529,8 +5588,8 @@ var entry, js, css;
 var init__ = __esm({
   ".svelte-kit/output/server/nodes/0.js"() {
     init_layout_svelte();
-    entry = "layout.svelte-d09530b7.js";
-    js = ["layout.svelte-d09530b7.js", "chunks/vendor-d8998dac.js"];
+    entry = "layout.svelte-80d99f81.js";
+    js = ["layout.svelte-80d99f81.js", "chunks/vendor-cd581d9e.js"];
     css = [];
   }
 });
@@ -5547,7 +5606,7 @@ function load({ error: error2, status }) {
 var Error2;
 var init_error_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/error.svelte.js"() {
-    init_index_2dc61825();
+    init_index_19e440a3();
     Error2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { status } = $$props;
       let { error: error2 } = $$props;
@@ -5579,8 +5638,8 @@ var entry2, js2, css2;
 var init__2 = __esm({
   ".svelte-kit/output/server/nodes/1.js"() {
     init_error_svelte();
-    entry2 = "error.svelte-0d833cdf.js";
-    js2 = ["error.svelte-0d833cdf.js", "chunks/vendor-d8998dac.js"];
+    entry2 = "error.svelte-9e693ee4.js";
+    js2 = ["error.svelte-9e693ee4.js", "chunks/vendor-cd581d9e.js"];
     css2 = [];
   }
 });
@@ -5590,37 +5649,569 @@ var index_svelte_exports = {};
 __export(index_svelte_exports, {
   default: () => Routes
 });
-var css$2, ZoomButton, css$1, TimeSlider, css3, Routes;
+function forwardEventsBuilder() {
+  const component = get_current_component();
+  return (node) => {
+    const destructors = events.map((event) => listen(node, event, (e2) => bubble(component, e2)));
+    return {
+      destroy: () => destructors.forEach((destroy) => destroy())
+    };
+  };
+}
+function readable2(value, start3) {
+  return {
+    subscribe: writable2(value, start3).subscribe
+  };
+}
+function writable2(value, start3 = noop2) {
+  let stop;
+  const subscribers = /* @__PURE__ */ new Set();
+  function set(new_value) {
+    if (safe_not_equal(value, new_value)) {
+      value = new_value;
+      if (stop) {
+        const run_queue = !subscriber_queue2.length;
+        for (const subscriber of subscribers) {
+          subscriber[1]();
+          subscriber_queue2.push(subscriber, value);
+        }
+        if (run_queue) {
+          for (let i2 = 0; i2 < subscriber_queue2.length; i2 += 2) {
+            subscriber_queue2[i2][0](subscriber_queue2[i2 + 1]);
+          }
+          subscriber_queue2.length = 0;
+        }
+      }
+    }
+  }
+  function update(fn) {
+    set(fn(value));
+  }
+  function subscribe2(run2, invalidate = noop2) {
+    const subscriber = [run2, invalidate];
+    subscribers.add(subscriber);
+    if (subscribers.size === 1) {
+      stop = start3(set) || noop2;
+    }
+    run2(value);
+    return () => {
+      subscribers.delete(subscriber);
+      if (subscribers.size === 0) {
+        stop();
+        stop = null;
+      }
+    };
+  }
+  return { set, update, subscribe: subscribe2 };
+}
+function start(set) {
+  set(Date.now() - now$1);
+  frame = window.requestAnimationFrame(() => start(set));
+  return () => window.cancelAnimationFrame(frame);
+}
+function noop4() {
+}
+var events, RenderManager, KEY, Canvas, Layer, subscriber_queue2, frame, now$1, Marker, Time, Year, MinLineDist, HourUnitCandidates, YearUnitCandidates, OneQuarter, OneHour, OneDay, OneYear, TimeRuler, Span, now, today, selection, css$4, Overlay, BackgroundLayer, css$3, Knob, css$2, TimeSlider, css$1, Timeline, css3, Routes;
 var init_index_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/index.svelte.js"() {
-    init_index_2dc61825();
-    css$2 = {
-      code: ".button.svelte-1mx21v9{position:absolute;left:250px;height:100px;width:100px;background-color:blue}.button2.svelte-1mx21v9{position:absolute;left:350px;height:100px;width:100px;background-color:white}",
+    init_index_19e440a3();
+    events = [
+      "focus",
+      "blur",
+      "fullscreenchange",
+      "fullscreenerror",
+      "scroll",
+      "cut",
+      "copy",
+      "paste",
+      "keydown",
+      "keypress",
+      "keyup",
+      "auxclick",
+      "click",
+      "contextmenu",
+      "dblclick",
+      "mousedown",
+      "mouseenter",
+      "mouseleave",
+      "mousemove",
+      "mouseover",
+      "mouseout",
+      "mouseup",
+      "pointerlockchange",
+      "pointerlockerror",
+      "select",
+      "wheel",
+      "drag",
+      "dragend",
+      "dragenter",
+      "dragstart",
+      "dragleave",
+      "dragover",
+      "drop",
+      "touchcancel",
+      "touchend",
+      "touchmove",
+      "touchstart",
+      "pointerover",
+      "pointerenter",
+      "pointerdown",
+      "pointermove",
+      "pointerup",
+      "pointercancel",
+      "pointerout",
+      "pointerleave",
+      "gotpointercapture",
+      "lostpointercapture"
+    ];
+    RenderManager = class {
+      constructor() {
+        this.register = this.register.bind(this);
+        this.unregister = this.unregister.bind(this);
+        this.redraw = this.redraw.bind(this);
+        this.resize = this.resize.bind(this);
+        this.render = this.render.bind(this);
+        this.currentLayerId = 0;
+        this.setups = /* @__PURE__ */ new Map();
+        this.renderers = /* @__PURE__ */ new Map();
+        this.needsSetup = false;
+        this.needsResize = true;
+        this.needsRedraw = true;
+        this.layerSequence = [];
+      }
+      redraw() {
+        this.needsRedraw = true;
+      }
+      resize() {
+        this.needsResize = true;
+        this.needsRedraw = true;
+      }
+      register({ setup, render }) {
+        if (setup) {
+          this.setups.set(this.currentLayerId, setup);
+          this.needsSetup = true;
+        }
+        this.renderers.set(this.currentLayerId, render);
+        this.needsRedraw = true;
+        return this.currentLayerId++;
+      }
+      unregister(layerId) {
+        this.renderers.delete(layerId);
+        this.needsRedraw = true;
+      }
+      render({ autoclear, pixelRatio, context, width, height }) {
+        const renderProps = { context, width, height };
+        if (this.needsResize) {
+          context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+          this.needsResize = false;
+        }
+        if (this.needsSetup) {
+          for (const [layerId, setup] of this.setups) {
+            setup(renderProps);
+            this.setups.delete(layerId);
+          }
+          this.needsSetup = false;
+        }
+        if (this.needsRedraw) {
+          if (autoclear) {
+            context.clearRect(0, 0, width, height);
+          }
+          for (const layerId of this.layerSequence) {
+            this.renderers.get(layerId)(renderProps);
+          }
+          this.needsRedraw = false;
+        }
+      }
+    };
+    KEY = {};
+    Canvas = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { width = 640, height = 640, pixelRatio = void 0, style = null, autoclear = true } = $$props;
+      let canvas, context, animationLoop, layerRef, layerObserver;
+      forwardEventsBuilder();
+      const manager = new RenderManager();
+      function redraw() {
+        manager.redraw();
+      }
+      function getCanvas() {
+        return canvas;
+      }
+      function getContext2() {
+        return context;
+      }
+      if (pixelRatio === void 0) {
+        if (typeof window === "undefined") {
+          pixelRatio = 2;
+        } else {
+          pixelRatio = window.devicePixelRatio;
+        }
+      }
+      setContext(KEY, {
+        register: manager.register,
+        unregister: manager.unregister,
+        redraw: manager.redraw
+      });
+      onDestroy(() => {
+        if (typeof window === "undefined")
+          return;
+        window.cancelAnimationFrame(animationLoop);
+        layerObserver.disconnect();
+      });
+      if ($$props.width === void 0 && $$bindings.width && width !== void 0)
+        $$bindings.width(width);
+      if ($$props.height === void 0 && $$bindings.height && height !== void 0)
+        $$bindings.height(height);
+      if ($$props.pixelRatio === void 0 && $$bindings.pixelRatio && pixelRatio !== void 0)
+        $$bindings.pixelRatio(pixelRatio);
+      if ($$props.style === void 0 && $$bindings.style && style !== void 0)
+        $$bindings.style(style);
+      if ($$props.autoclear === void 0 && $$bindings.autoclear && autoclear !== void 0)
+        $$bindings.autoclear(autoclear);
+      if ($$props.redraw === void 0 && $$bindings.redraw && redraw !== void 0)
+        $$bindings.redraw(redraw);
+      if ($$props.getCanvas === void 0 && $$bindings.getCanvas && getCanvas !== void 0)
+        $$bindings.getCanvas(getCanvas);
+      if ($$props.getContext === void 0 && $$bindings.getContext && getContext2 !== void 0)
+        $$bindings.getContext(getContext2);
+      {
+        manager.resize();
+      }
+      return `<canvas style="${"display: block; width: " + escape(width) + "px; height: " + escape(height) + "px;" + escape(style ? ` ${style}` : "")}"${add_attribute("width", width * pixelRatio, 0)}${add_attribute("height", height * pixelRatio, 0)}${add_attribute("this", canvas, 0)}></canvas>
+
+<div style="${"display: none;"}"${add_attribute("this", layerRef, 0)}>${slots.default ? slots.default({}) : ``}</div>`;
+    });
+    Layer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      const { register, unregister, redraw } = getContext(KEY);
+      let { setup = void 0, render = () => {
+      } } = $$props;
+      if (typeof setup !== "function" && setup !== void 0) {
+        throw new Error("setup must be a function");
+      }
+      if (typeof render !== "function") {
+        throw new Error("render must be a function");
+      }
+      const layerId = register({ setup, render });
+      onDestroy(() => unregister(layerId));
+      if ($$props.setup === void 0 && $$bindings.setup && setup !== void 0)
+        $$bindings.setup(setup);
+      if ($$props.render === void 0 && $$bindings.render && render !== void 0)
+        $$bindings.render(render);
+      {
+        redraw();
+      }
+      return `<div${add_attribute("data-layer-id", layerId, 0)}></div>`;
+    });
+    subscriber_queue2 = [];
+    now$1 = Date.now();
+    readable2(Date.now() - now$1, typeof window === "undefined" ? noop4 : start);
+    Marker = class {
+      constructor(time, ruler) {
+        this.LeftMargin = 100;
+        this.OneHour = 36e5;
+        this.OneDay = this.OneHour * 24;
+        this.time = time;
+        this.ruler = ruler;
+      }
+      isVisible(unit) {
+        return this.time % (unit * this.OneHour * 0.5) == 0 && this.time % (unit * this.OneHour) != 0;
+      }
+      drawLine(context, x2, height, bold = false) {
+        context.setLineDash([3, 2]);
+        context.strokeStyle = "#dddddd";
+        context.beginPath();
+        context.moveTo(x2, 25);
+        context.lineTo(x2, height);
+        context.stroke();
+      }
+      render(context, width, height) {
+        const marker = "|";
+        var x2 = this.ruler.getX(this.time, width);
+        if (x2 > this.ruler.leftMargin) {
+          if (x2 > this.LeftMargin) {
+            context.font = "12px Arial";
+            context.fillText(marker, x2 - context.measureText(marker).width / 2, 15);
+            this.drawLine(context, x2, height);
+          }
+        }
+      }
+    };
+    Time = class extends Marker {
+      drawLine(context, x2, height, bold = false) {
+        if (bold) {
+          context.strokeStyle = "#aaaaaa";
+        } else {
+          context.strokeStyle = "#dddddd";
+        }
+        context.setLineDash([]);
+        context.beginPath();
+        context.moveTo(x2, 25);
+        context.lineTo(x2, height);
+        context.stroke();
+      }
+      render(context, width, height) {
+        var x2 = this.ruler.getX(this.time, width);
+        if (x2 > this.ruler.leftMargin) {
+          var time = new Date(this.time);
+          let timeDisplayText = time.toLocaleTimeString("nb-no", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+          });
+          if (timeDisplayText == "00:00") {
+            timeDisplayText = time.toLocaleDateString("nb-no");
+            context.font = "bold 12px Arial";
+            this.drawLine(context, x2, height, true);
+          } else {
+            context.font = "12px Arial";
+            this.drawLine(context, x2, height);
+          }
+          context.fillText(timeDisplayText, x2 - context.measureText(timeDisplayText).width / 2, 17);
+        }
+      }
+    };
+    Year = class extends Time {
+      render(context, width, height) {
+        var x2 = this.ruler.getX(this.time, width);
+        if (x2 > this.ruler.leftMargin) {
+          var time = new Date(this.time);
+          let timeDisplayText;
+          if (time.getMonth() == 0) {
+            timeDisplayText = `${time.getFullYear()}`;
+            context.font = "bold 12px Arial";
+            this.drawLine(context, x2, height, true);
+          } else {
+            timeDisplayText = "|";
+            this.drawLine(context, x2, height, false);
+          }
+          context.fillText(timeDisplayText, x2 - context.measureText(timeDisplayText).width / 2, 17);
+        }
+      }
+    };
+    MinLineDist = 110;
+    HourUnitCandidates = [1 / 60, 5 / 60, 1 / 4, 1 / 2, 1, 2, 4, 6, 12, 24, 48, 96, 192];
+    YearUnitCandidates = [1 / 12, 1 / 6, 1 / 4, 1 / 2, 1, 2, 4, 8, 16];
+    OneQuarter = 9e5;
+    OneHour = OneQuarter * 4;
+    OneDay = OneHour * 24;
+    OneYear = OneDay * 365.25;
+    TimeRuler = class {
+      constructor(selection2, leftMargin) {
+        this.leftMargin = 100;
+        this.leftMargin = leftMargin;
+        this.start = selection2.start.getTime();
+        this.end = selection2.end.getTime();
+        this.span = this.end - this.start;
+      }
+      calculateTimeUnits(width) {
+        var distanceEachMillisecond = width / this.span;
+        if (distanceEachMillisecond <= 0) {
+          return { detailed: false, unit: 1 };
+        }
+        for (var i2 = 0; i2 < HourUnitCandidates.length; i2++) {
+          var candidate = HourUnitCandidates[i2];
+          var length = distanceEachMillisecond * OneHour * candidate;
+          if (length >= MinLineDist) {
+            return { detailed: true, v: candidate };
+          }
+        }
+        for (var i2 = 0; i2 < YearUnitCandidates.length; i2++) {
+          var candidate = YearUnitCandidates[i2];
+          var length = distanceEachMillisecond * OneYear * candidate;
+          if (length >= MinLineDist) {
+            return { detailed: false, v: candidate };
+          }
+        }
+        return { detailed: false, unit: 1 };
+      }
+      getX(value, width, hide = false, leftMargin = null) {
+        if (leftMargin == null) {
+          leftMargin = this.leftMargin;
+        }
+        var result = leftMargin + (width - leftMargin) * (value - this.start) / this.span;
+        if (result < leftMargin && hide) {
+          return -999;
+        }
+        return result;
+      }
+      calculateLocalTime(time) {
+        var zone = new Date(time).getTimezoneOffset() * 60 * 1e3;
+        return time + zone;
+      }
+      render(context, width, height) {
+        var unit = this.calculateTimeUnits(width);
+        var startDay = this.start - this.start % OneDay;
+        var localDay = this.calculateLocalTime(startDay);
+        var markers = new Array();
+        if (unit.detailed) {
+          for (var time = localDay; time < this.end; time += OneHour * unit.v) {
+            markers.push(new Time(time, this));
+          }
+          for (var time = localDay + OneHour * unit.v * 0.5; time < this.end; time += OneHour * unit.v) {
+            markers.push(new Marker(time, this));
+          }
+        } else {
+          var start3 = new Date(new Date(localDay).getFullYear(), 0).getTime();
+          var end = new Date(new Date(this.end).getFullYear(), 12, 31).getTime();
+          for (var time = start3; time < end; time += OneYear * unit.v) {
+            var markerDate = new Date(time);
+            var marker = new Year(markerDate.getTime(), this);
+            markers.push(marker);
+          }
+        }
+        const date = new Date(localDay);
+        const dateText = date.toDateString();
+        context.font = "bold 12px Arial";
+        context.fillText(dateText, 4, 17);
+        markers.map((m2) => {
+          if (m2) {
+            m2.render(context, width, height);
+          }
+        });
+      }
+    };
+    Span = class {
+      constructor(start3, end, min, max) {
+        this.start = start3;
+        this.end = end;
+        this.min = min;
+        this.max = max;
+      }
+      getLeft(timeRuler, w) {
+        return timeRuler.getX(this.start.getTime(), w, false, 0);
+      }
+      getWidth(timeRuler, w) {
+        return timeRuler.getX(this.end.getTime(), w, false, 0) - this.getLeft(timeRuler, w);
+      }
+    };
+    now = readable2(new Date(), function start2(set) {
+      const interval = setInterval(() => {
+        set(new Date());
+      }, 1e3);
+      return function stop() {
+        clearInterval(interval);
+      };
+    });
+    today = new Date();
+    writable2(new Span(new Date(today.getTime() - 5 * 36e5), new Date(today.getTime() + 5 * 36e5)));
+    selection = writable2(new Span(new Date(today.getTime() - 1 * 36e5), new Date(today.getTime() + 1 * 36e5)));
+    css$4 = {
+      code: ".overlay.svelte-l2l9jo{position:absolute;transform:translate(-50%, 0);top:3px;padding:3px 0 0 0;height:16px;width:60px;background:rgb(235, 126, 18);color:white;font:bold 12px Arial;text-align:center;border-radius:4px}.overlayLeft.svelte-l2l9jo{position:absolute;top:3px;height:19px;width:75px;background-image:linear-gradient(to left, rgba(235,126,18,0), rgba(235,126,18,1))}.overlayRight.svelte-l2l9jo{position:absolute;top:3px;height:19px;width:75px;background-image:linear-gradient(to right, rgba(235,126,18,0), rgba(235,126,18,1))}.line.svelte-l2l9jo{position:absolute;top:3px;bottom:0;width:2px;transform:translate(-50%, 0);background:rgb(235, 126, 18);opacity:0.6}",
       map: null
     };
-    ZoomButton = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      $$result.css.add(css$2);
-      return `<div class="${"button2 svelte-1mx21v9"}"></div>
-<div class="${"button svelte-1mx21v9"}"></div>`;
+    Overlay = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $now, $$unsubscribe_now;
+      $$unsubscribe_now = subscribe(now, (value) => $now = value);
+      let { timeRuler } = $$props;
+      let { width } = $$props;
+      let { height } = $$props;
+      let pos;
+      let isLeft;
+      let isRight;
+      if ($$props.timeRuler === void 0 && $$bindings.timeRuler && timeRuler !== void 0)
+        $$bindings.timeRuler(timeRuler);
+      if ($$props.width === void 0 && $$bindings.width && width !== void 0)
+        $$bindings.width(width);
+      if ($$props.height === void 0 && $$bindings.height && height !== void 0)
+        $$bindings.height(height);
+      $$result.css.add(css$4);
+      {
+        {
+          pos = timeRuler == null ? void 0 : timeRuler.getX($now.getTime(), width);
+          isLeft = pos < timeRuler.leftMargin - 30;
+          isRight = pos > width + 30;
+        }
+      }
+      $$unsubscribe_now();
+      return `${!isLeft && !isRight ? `<div class="${"line svelte-l2l9jo"}"${add_attribute("style", `left:${pos}px;height:${height - 5}px`, 0)}></div>
+    <div class="${"overlay svelte-l2l9jo"}"${add_attribute("style", `left:${pos}px`, 0)}>${escape($now.toLocaleTimeString("nb-no", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }))}</div>` : `${isLeft ? `<div class="${"overlayLeft svelte-l2l9jo"}"${add_attribute("style", `left:${timeRuler.leftMargin - 30}px`, 0)}></div>` : `${isRight ? `<div class="${"overlayRight svelte-l2l9jo"}"${add_attribute("style", `left:${width - 60}px;right:${width}px`, 0)}></div>` : ``}`}`}`;
     });
-    css$1 = {
-      code: ".slider.svelte-8ex70p{position:relative;width:100%;height:1000px;background:red}",
+    BackgroundLayer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let render;
+      let { timeRuler } = $$props;
+      if ($$props.timeRuler === void 0 && $$bindings.timeRuler && timeRuler !== void 0)
+        $$bindings.timeRuler(timeRuler);
+      render = ({ context, width, height }) => {
+        timeRuler.render(context, width, height);
+      };
+      return `${validate_component(Layer, "Layer").$$render($$result, { render }, {}, {})}`;
+    });
+    css$3 = {
+      code: ".button.svelte-5laq3u{position:absolute;left:250px;top:2px;height:36px;width:75px;background-color:blue}",
+      map: null
+    };
+    Knob = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $selection, $$unsubscribe_selection;
+      $$unsubscribe_selection = subscribe(selection, (value) => $selection = value);
+      let { timeRuler } = $$props;
+      let { width } = $$props;
+      if ($$props.timeRuler === void 0 && $$bindings.timeRuler && timeRuler !== void 0)
+        $$bindings.timeRuler(timeRuler);
+      if ($$props.width === void 0 && $$bindings.width && width !== void 0)
+        $$bindings.width(width);
+      $$result.css.add(css$3);
+      {
+        console.log("l", $selection.getLeft(timeRuler, width));
+      }
+      {
+        console.log("w", $selection.getWidth(timeRuler, width));
+      }
+      $$unsubscribe_selection();
+      return `
+
+<div class="${"button svelte-5laq3u"}" style="${"left:" + escape($selection.getLeft(timeRuler, width)) + "px;width:" + escape($selection.getWidth(timeRuler, width)) + "px"}"></div>`;
+    });
+    css$2 = {
+      code: ".track.svelte-89wjm2{height:40px;background:lightgray}",
       map: null
     };
     TimeSlider = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      $$result.css.add(css$1);
-      return `<div class="${"slider svelte-8ex70p"}">
-    ${validate_component(ZoomButton, "ZoomButton").$$render($$result, { time: new Date().getTime() }, {}, {})}
+      let { timeRuler } = $$props;
+      let width;
+      if ($$props.timeRuler === void 0 && $$bindings.timeRuler && timeRuler !== void 0)
+        $$bindings.timeRuler(timeRuler);
+      $$result.css.add(css$2);
+      return `<div class="${"track svelte-89wjm2"}">
+    ${validate_component(Knob, "Knob").$$render($$result, { timeRuler, width }, {}, {})}
+    
     
 </div>`;
     });
+    css$1 = {
+      code: ".timeline.svelte-9bem79{overflow-y:auto;overflow-x:hidden;height:calc(100% - 40px)}",
+      map: null
+    };
+    Timeline = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $selection, $$unsubscribe_selection;
+      $$unsubscribe_selection = subscribe(selection, (value) => $selection = value);
+      let width;
+      let height;
+      let timeRuler;
+      $$result.css.add(css$1);
+      {
+        {
+          timeRuler = new TimeRuler($selection, 200);
+        }
+      }
+      $$unsubscribe_selection();
+      return `${timeRuler ? `<div class="${"timeline svelte-9bem79"}">${validate_component(Canvas, "Canvas").$$render($$result, { width, height }, {}, {
+        default: () => {
+          return `${validate_component(BackgroundLayer, "BackgroundLayer").$$render($$result, { timeRuler }, {}, {})}`;
+        }
+      })}                
+        ${validate_component(Overlay, "Overlay").$$render($$result, { timeRuler, width, height }, {}, {})}</div>
+    ${validate_component(TimeSlider, "TimeSlider").$$render($$result, { timeRuler }, {}, {})}` : ``}`;
+    });
     css3 = {
-      code: ".main.svelte-1jszafm{position:relative;left:10%;width:80%;height:100%;display:flex;justify-content:center;align-items:center}",
+      code: ".main.svelte-l7ms3l{position:relative;justify-content:center;align-items:center;touch-action:none;height:100%}",
       map: null
     };
     Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       $$result.css.add(css3);
-      return `<div class="${"main svelte-1jszafm"}">${validate_component(TimeSlider, "TimeSlider").$$render($$result, {}, {}, {})}
+      return `<div class="${"main svelte-l7ms3l"}">${validate_component(Timeline, "Timeline").$$render($$result, {}, {}, {})}
 </div>`;
     });
   }
@@ -5638,9 +6229,9 @@ var entry3, js3, css4;
 var init__3 = __esm({
   ".svelte-kit/output/server/nodes/2.js"() {
     init_index_svelte();
-    entry3 = "pages/index.svelte-348cd5d5.js";
-    js3 = ["pages/index.svelte-348cd5d5.js", "chunks/vendor-d8998dac.js"];
-    css4 = ["assets/pages/index.svelte-f8e3fec8.css"];
+    entry3 = "pages/index.svelte-48452984.js";
+    js3 = ["pages/index.svelte-48452984.js", "chunks/vendor-cd581d9e.js"];
+    css4 = ["assets/pages/index.svelte-b5ad6ce5.css"];
   }
 });
 
@@ -5725,7 +6316,7 @@ async function setResponse(res, response) {
 }
 
 // .svelte-kit/output/server/app.js
-init_index_2dc61825();
+init_index_19e440a3();
 var __accessCheck2 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -6135,23 +6726,23 @@ function stringifyString(str) {
   result += '"';
   return result;
 }
-function noop2() {
+function noop3() {
 }
-function safe_not_equal(a, b) {
+function safe_not_equal2(a, b) {
   return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
 }
 Promise.resolve();
 var subscriber_queue = [];
-function readable(value, start) {
+function readable(value, start3) {
   return {
-    subscribe: writable(value, start).subscribe
+    subscribe: writable(value, start3).subscribe
   };
 }
-function writable(value, start = noop2) {
+function writable(value, start3 = noop3) {
   let stop;
   const subscribers = /* @__PURE__ */ new Set();
   function set(new_value) {
-    if (safe_not_equal(value, new_value)) {
+    if (safe_not_equal2(value, new_value)) {
       value = new_value;
       if (stop) {
         const run_queue = !subscriber_queue.length;
@@ -6171,11 +6762,11 @@ function writable(value, start = noop2) {
   function update(fn) {
     set(fn(value));
   }
-  function subscribe(run2, invalidate = noop2) {
+  function subscribe2(run2, invalidate = noop3) {
     const subscriber = [run2, invalidate];
     subscribers.add(subscriber);
     if (subscribers.size === 1) {
-      stop = start(set) || noop2;
+      stop = start3(set) || noop3;
     }
     run2(value);
     return () => {
@@ -6186,7 +6777,7 @@ function writable(value, start = noop2) {
       }
     };
   }
-  return { set, update, subscribe };
+  return { set, update, subscribe: subscribe2 };
 }
 function coalesce_to_error(err) {
   return err instanceof Error || err && err.name && err.message ? err : new Error(JSON.stringify(err));
@@ -7650,7 +8241,7 @@ var user_hooks = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module"
 });
-var template = ({ head, body, assets: assets2, nonce }) => '<!DOCTYPE html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<meta name="description" content="" />\n		<link rel="icon" href="' + assets2 + '/favicon.png" />\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\n		' + head + "\n	</head>\n	<body>\n		<div>" + body + "</div>\n	</body>\n</html>\n";
+var template = ({ head, body, assets: assets2, nonce }) => '<!DOCTYPE html>\n<html lang="en">	\n	<style>\n		html,body {\n			height:100%;\n			margin: 0;\n			padding: 0;\n		}\n	</style>\n	<head>\n		<meta charset="utf-8" />\n		<meta name="description" content="" />\n		<link rel="icon" href="' + assets2 + '/favicon.png" />\n		<meta name="viewport" content="width=device-width, initial-scale=1" />		\n		' + head + '\n	</head>\n	<body>\n		<div style="height:100%;">' + body + "</div>\n	</body>\n</html>\n";
 var read = null;
 set_paths({ "base": "", "assets": "" });
 var get_hooks = (hooks) => ({
@@ -7708,7 +8299,7 @@ var manifest = {
   assets: new Set(["favicon.png"]),
   _: {
     mime: { ".png": "image/png" },
-    entry: { "file": "start-a49ec765.js", "js": ["start-a49ec765.js", "chunks/vendor-d8998dac.js"], "css": [] },
+    entry: { "file": "start-061c7dd7.js", "js": ["start-061c7dd7.js", "chunks/vendor-cd581d9e.js"], "css": [] },
     nodes: [
       () => Promise.resolve().then(() => (init__(), __exports)),
       () => Promise.resolve().then(() => (init__2(), __exports2)),

@@ -1,2 +1,2 @@
-export { default as Button } from './Button.svelte';
-export { default as TimeSlider } from './TimeSlider.svelte';
+export { default as Knob } from './Knob.svelte';
+export { default as Timeline } from "./Timeline/Timeline.svelte";
